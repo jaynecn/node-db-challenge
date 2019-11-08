@@ -10,7 +10,15 @@ const router = express.Router();
 router.get('/', (req, res) => {
   Projects.find()
   .then(projects => {
-    res.json(projects);
+    const amend = projects;
+    amend.map((data) => {
+      const changeToTrue = 'true';
+      const changeToFalse = 'false';
+     if(data.completed === 1) {
+       data.completed = changeToTrue;
+     } else data.completed = changeToFalse;
+    })
+    res.json(amend);
   })
   .catch(error => {
     res.status(500).json({ message: 'Failed to get projects ' + error.message})
@@ -21,12 +29,16 @@ router.get('/:id',  (req, res) => {
   const { id } = req.params;
   Projects.findById(id)
    .then(project => {
-     if (project) {
-       project.completed === 1 ? true: false;
-       res.json(project);
-      } else {
-        res.status(404).json({ message: 'Could not find project with given id.' })
-      }
+    const amend = project;
+    amend.map((data) => {
+      const changeToTrue = 'true';
+      const changeToFalse = 'false';
+     if(data.completed === 1) {
+       data.completed = changeToTrue;
+     } else data.completed = changeToFalse;
+     console.log(data.completed);
+    })
+    res.json(amend);
     })
     .catch(err => {
       res.status(500).json({ message: 'Failed to get project '  + err.message});
@@ -40,8 +52,17 @@ router.get('/:id/tasks', (req, res) => {
   Projects.findTasks(id)
     .then(tasks => {
       if (tasks.length) {
-        res.json(tasks);
-      } else {
+        const amend = tasks;
+    amend.map((data) => {
+      const changeToTrue = 'true';
+      const changeToFalse = 'false';
+     if(data.completed === 1) {
+       data.completed = changeToTrue;
+     } else data.completed = changeToFalse;
+     console.log(data.completed);
+    })
+    res.json(tasks);
+    } else {
         res.status(404).json({ message: 'Could not find tasks for given scheme' })
       }
     })
