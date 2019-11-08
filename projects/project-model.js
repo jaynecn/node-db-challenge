@@ -3,7 +3,9 @@ const db = require('../data/db-config');
 module.exports = {
   find,
   findById,
-  findTasks
+  findTasks,
+  add,
+  addTask
 }
 
 function find() {
@@ -18,7 +20,21 @@ function findById(id) {
 function findTasks(id) {
   return db('projects as p')
     .join('tasks as t', 't.project_id', 'p.id')
-    .select('t.id', 'p.name', 'p.description', 't.description')
+    .select('t.id', 'p.name', 'p.description', 't.completed', 't.description', )
     .orderBy('t.id')
     .where({ 'p.id': id});
 }
+
+function add(projectData) {
+  return db('projects')
+    .insert(projectData);
+}
+
+function addTask(taskData, id) {
+  return db('tasks as t')
+  .join('projects as p', 't.id', 'p.id')
+  .insert(taskData)
+  .where({ 'p.id': id })
+}
+
+

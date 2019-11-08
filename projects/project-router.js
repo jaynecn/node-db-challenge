@@ -22,6 +22,7 @@ router.get('/:id',  (req, res) => {
   Projects.findById(id)
    .then(project => {
      if (project) {
+       project.completed === 1 ? true: false;
        res.json(project);
       } else {
         res.status(404).json({ message: 'Could not find project with given id.' })
@@ -34,6 +35,7 @@ router.get('/:id',  (req, res) => {
 
 router.get('/:id/tasks', (req, res) => {
   const { id } = req.params;
+  // const boolean  = req.params.
 
   Projects.findTasks(id)
     .then(tasks => {
@@ -49,6 +51,38 @@ router.get('/:id/tasks', (req, res) => {
   });
 
 // POST requests
+
+router.post('/', (req, res) => {
+  const projectData = req.body;
+
+  Projects.add(projectData)
+  .then(project => {
+    res.status(201).json({ message:'project created with id number ' + project});
+  })
+  .catch (err => {
+    res.status(500).json({ message: 'Failed to create new project'  + err.message});
+  });
+});
+
+router.post('/:id/tasks', (req, res) => {
+  const taskData = req.body;
+  const { id } = req.params; 
+
+  Projects.findById(id)
+  .then(task => {
+    if (task) {
+      Projects.addTask(taskData, id)
+      .then(step => {
+      res.status(201).json({message:'task created with id number ' + step});
+      })
+    } else {
+      res.status(404).json({ message: 'Could not find project with given id.' })
+    }
+  })
+  .catch (err => {
+    res.status(500).json({ message: 'Failed to create new task ' + err.message });
+  });
+});
 
 
 module.exports = router;
