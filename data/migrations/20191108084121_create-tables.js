@@ -8,7 +8,7 @@ exports.up = function(knex) {
       table.string('description', 128)
       table.boolean('completed')
         .notNullable()
-        .defaultTo("0");
+        .defaultTo(false);
     })
     .createTable('tasks', table => {
       table.increments()
@@ -24,7 +24,7 @@ exports.up = function(knex) {
         .onDelete('CASCADE')
       table.boolean('completed')
         .notNullable()
-        .defaultTo("0");
+        .defaultTo(false);
     })
     .createTable('resources', table => {
       table.increments()
