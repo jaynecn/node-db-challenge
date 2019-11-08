@@ -12,8 +12,8 @@ router.get('/', (req, res) => {
   .then(projects => {
     const amend = projects;
     amend.map((data) => {
-      const changeToTrue = 'true';
-      const changeToFalse = 'false';
+      const changeToTrue = true;
+      const changeToFalse = false;
      if(data.completed === 1) {
        data.completed = changeToTrue;
      } else data.completed = changeToFalse;
@@ -31,12 +31,11 @@ router.get('/:id',  (req, res) => {
    .then(project => {
     const amend = project;
     amend.map((data) => {
-      const changeToTrue = 'true';
-      const changeToFalse = 'false';
+      const changeToTrue = true;
+      const changeToFalse = false;
      if(data.completed === 1) {
        data.completed = changeToTrue;
      } else data.completed = changeToFalse;
-     console.log(data.completed);
     })
     res.json(amend);
     })
@@ -54,12 +53,11 @@ router.get('/:id/tasks', (req, res) => {
       if (tasks.length) {
         const amend = tasks;
     amend.map((data) => {
-      const changeToTrue = 'true';
-      const changeToFalse = 'false';
+      const changeToTrue = true;
+      const changeToFalse = false;
      if(data.completed === 1) {
        data.completed = changeToTrue;
      } else data.completed = changeToFalse;
-     console.log(data.completed);
     })
     res.json(tasks);
     } else {
